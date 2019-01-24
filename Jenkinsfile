@@ -1,21 +1,14 @@
 pipeline {
     agent {
-    kubernetes {
-      label 'nodepod'
-      defaultContainer 'jenkins-jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    some-label: some-label-value
-spec:
-  containers:
-  - name: node
-    image: node:6-alpine
-"""
+      kubernetes {
+        label 'nodepod'
+        containerTemplate {
+          name 'node'
+          image 'node:6-alpine'
+          ttyEnabled true
+        }
+      }
     }
-  }
     environment {
         CI = 'true'
     }
